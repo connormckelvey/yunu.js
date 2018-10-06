@@ -1,0 +1,28 @@
+{
+  "name": "yunu.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-mocha src/**/*.spec.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/chai": "^4.1.6",
+    "@types/js-yaml": "^3.11.2",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.11.4",
+    "@types/yargs": "^12.0.1",
+    "chai": "^4.2.0",
+    "deepmerge": "^2.1.1",
+    "js-yaml": "^3.12.0",
+    "mocha": "^5.2.0",
+    "typescript": "^3.1.1",
+    "yargs": "^12.0.2"
+  },
+  "devDependencies": {
+    "ts-mocha": "^2.0.0"
+  }
+}
