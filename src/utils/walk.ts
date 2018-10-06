@@ -1,8 +1,8 @@
 import { isPrimitive } from './utils'
 
-export type WalkUpdater = (key: any, value: any) => any
+export type WalkUpdater = <T = any>(key: any, value: T) => T
 
-export default function walk(subject: any, updater: WalkUpdater): {} {
+export default function walk(subject: any, updater: WalkUpdater): any {
   // Subject is an Array
   if (Array.isArray(subject)) return walkArray(subject, updater)
   // Subject is a Map
@@ -22,17 +22,6 @@ function walkArray<T = any>(array: T[], updater: WalkUpdater): T[] {
   }, [])
 }
 
-function walkObject(object: {}, updater: WalkUpdater): {} {
-  return Object.entries(object).reduce((obj, [key, value]) => {
-    const updatedValue = updateEntry(key, value, updater)
-    if (typeof updatedValue === undefined) {
-      const { [key]: _, ...withoutKey } = obj
-      return withoutKey
-    }
-    return { ...obj, [key]: updatedValue}
-  }, object)
-}
-
 function walkMap<K = string, V = any>(map: Map<K, V>, updater: WalkUpdater): Map<K, V> {
   return Array.from(map.entries()).reduce((m, [key, value]) => {
     const updatedValue = updateEntry(key, value, updater)
@@ -42,6 +31,17 @@ function walkMap<K = string, V = any>(map: Map<K, V>, updater: WalkUpdater): Map
     }
     return m.set(key, updatedValue)
   }, new Map(map))
+}
+
+function walkObject(object: {}, updater: WalkUpdater): {} {
+  return Object.entries(object).reduce((obj, [key, value]) => {
+    const updatedValue = updateEntry(key, value, updater)
+    if (typeof updatedValue === undefined) {
+      const { [key]: _, ...withoutKey } = obj
+      return withoutKey
+    }
+    return { ...obj, [key]: updatedValue}
+  }, object)
 }
 
 function updateEntry<K = string, V = any>(key: K, value: V, updater: WalkUpdater): V {
