@@ -1,41 +1,25 @@
 import * as fs from 'fs'
 import * as YAML from 'js-yaml'
+import * as utils from '../utils'
 
-type Reviver = (key: any, value: any) => any
-type Replacer = (key: any, value: any) => any
+export type Reviver = utils.WalkUpdater
+export type Replacer = utils.WalkUpdater
 
-function isPrimitive(test: any): boolean {
-  return test !== Object(test)
+export function load<T>(str: string, reviver?: Reviver): T {
+  const data = YAML.load(str)
+  if(reviver) return utils.walk(data, reviver)
+  return data
 }
 
-function walkAndUpdate(subject: any, reviver: Reviver): {} {
-  return Object.entries(subject).reduce((obj, [key, value]) => ({
-    ...obj, 
-    [key]: isPrimitive(value) 
-      ? reviver(key, value)
-      : reviver(key, walkAndUpdate(value, reviver))
-  }), subject)
+export function loadFile<T>(path: string, reviver?: Reviver): T {
+  return load(fs.readFileSync(path, { encoding: 'utf-8' }).toString(), reviver)
 }
 
-walkAndUpdate({a: 'b', c: 'd', e: { f: { g: 'h', i: [3,2,1] } }}, (k, v) => {
-  console.log({k, v})
-  return v
-})
-
-export function decode<T>(str: string, reviver?: Reviver): T {
-  YAML.load(str)
-  return JSON.parse(str, reviver) as T
+export function dump(data: any, replacer?: Replacer, options?: YAML.DumpOptions): string {
+  if (replacer) return YAML.dump(utils.walk(data, replacer), options)
+  return YAML.dump(data)
 }
 
-export function decodeFile<T>(path: string, reviver?: Reviver): T {
-  const data = fs.readFileSync(path);
-  return decode(data.toString(), reviver)
-}
-
-export function encode(data: any, replacer?: Replacer): string {
-  return JSON.stringify(data, replacer, 2)
-}
-
-export function encodeFile(path: string, data: any, replacer?: Replacer): void {
-  return fs.writeFileSync(path, encode(data, replacer))
+export function dumpFile(path: string, data: any, replacer?: Replacer, options?: YAML.DumpOptions): void {
+  return fs.writeFileSync(path, dump(data, replacer, options), { encoding: 'utf-8' })
 }

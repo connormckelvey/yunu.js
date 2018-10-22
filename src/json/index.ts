@@ -1,29 +1,21 @@
 import * as fs from 'fs'
+import * as utils from '../utils'
 
-type Reviver = (key: any, value: any) => any
-type Replacer = (key: any, value: any) => any
+export type Reviver = utils.WalkUpdater
+export type Replacer = utils.WalkUpdater
 
-export function decode<T>(str: string, reviver?: Reviver): T {
-  return JSON.parse(str, reviver) as T
+export function load<T>(str: string, reviver?: Reviver): T {
+  return JSON.parse(str, reviver)
 }
 
-export function decodeFile<T>(path: string, reviver?: Reviver): T {
-  const data = fs.readFileSync(path);
-  return decode(data.toString(), reviver)
+export function loadFile<T>(path: string, reviver?: Reviver): T {
+  return load(fs.readFileSync(path, { encoding: 'utf-8' }).toString(), reviver)
 }
 
-export function encode(data: any, replacer?: Replacer): string {
-  return JSON.stringify(data, replacer, 2)
+export function dump(data: any, replacer?: Replacer): string {
+  return JSON.stringify(data, replacer, 2) + "\n"
 }
 
-export function encodeFile(path: string, data: any, replacer?: Replacer): void {
-  return fs.writeFileSync(path, encode(data, replacer))
+export function dumpFile(path: string, data: any, replacer?: Replacer): void {
+  return fs.writeFileSync(path, dump(data, replacer), { encoding: 'utf-8' })
 }
-
-const j = decodeFile('package.json', (k, v) => {
-  console.log({k, v})
-  return v
-})
-console.log(j)
-
-encodeFile('package2.json', j)

@@ -1,8 +1,8 @@
-# Yunu.JS - Data Templating with JavaScript
+# Yunu.JS - Flexible Configuration Generation with JavaScript
 
-Yunu.js is a library containing a handful of utilities useful for  generating configuration files with JavaScript. It is not a templating 
-language or a templating engine. It is not a framework or a task runner,
-and it doesn't have a DSL. 
+Yunu.js is a less opinionated approach to data templating. With Yunu's library
+of simple utilities, you can use a familiar language to generate data and configuration
+files for your projects. [Learn more]() about the motivations behind this project. 
 
 [Get Started](#get-started)
 
@@ -34,6 +34,12 @@ At some point, every developer working with a significant amount of JSON/Yaml/In
 - Typescript provides advanced developers with static type checking
 - Javascript is pretty good parsing and encoding JSON
 - Every popular text editor has syntax, language, and debugging support for Javascript
+
+## Features
+
+- Load utilities for reading and parsing strings and files into Javascript Objects
+- Dump utilities for stingifying Javascript Objects into strings or files
+- Walk utility for walking each key value pair of Javascript Objects
 
 ## Prerequisites
 
