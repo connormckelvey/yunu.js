@@ -1,0 +1,18 @@
+{
+  "name": "wordpress-init",
+  "image": "wordpress-init:latest",
+  "db": {
+    "name": "wordpress-db"
+  },
+  "env": {
+    "WORDPRESS_DB_HOST": "wordpress-db-host.local",
+    "SITE_URL": "www.fakedoors.com",
+    "SITE_TITLE": "Real fake doors",
+    "SITE_ADMIN_EMAIL": "real@fakedoors.com"
+  },
+  "secrets": {
+    "WORDPRESS_DB_NAME": "name",
+    "WORDPRESS_DB_USER": "user",
+    "WORDPRESS_DB_PASS": "pass"
+  }
+}
