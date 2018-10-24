@@ -1,6 +1,6 @@
 import { isPrimitive } from './utils'
 
-export type WalkUpdater = <T = any>(key: any, value: T) => T
+export type WalkUpdater = <T = any>(key: any, value: T, parent?: any) => T
 
 export function walk(subject: any, updater: WalkUpdater): any {
   // Subject is an Array
@@ -13,7 +13,7 @@ export function walk(subject: any, updater: WalkUpdater): any {
 
 function walkArray<T = any>(array: T[], updater: WalkUpdater): T[] {
   return array.reduce((arr, value, index) => {
-    const updatedValue = updateEntry(""+index, value, updater)
+    const updatedValue = updateEntry(""+index, value, updater, array)
     if (typeof updatedValue === "undefined") {
       return arr
     } else {
@@ -24,7 +24,7 @@ function walkArray<T = any>(array: T[], updater: WalkUpdater): T[] {
 
 function walkMap<K = string, V = any>(map: Map<K, V>, updater: WalkUpdater): Map<K, V> {
   return Array.from(map.entries()).reduce((m, [key, value]) => {
-    const updatedValue = updateEntry(key, value, updater)
+    const updatedValue = updateEntry(key, value, updater, map)
     if (typeof updatedValue === "undefined") {
       m.delete(key)
       return m
@@ -35,7 +35,7 @@ function walkMap<K = string, V = any>(map: Map<K, V>, updater: WalkUpdater): Map
 
 function walkObject(object: {}, updater: WalkUpdater): {} {
   return Object.entries(object).reduce((obj, [key, value]) => {
-    const updatedValue = updateEntry(key, value, updater)
+    const updatedValue = updateEntry(key, value, updater, object)
     if (typeof updatedValue === "undefined") {
       const { [key]: _, ...withoutKey } = obj
       return withoutKey
@@ -44,8 +44,8 @@ function walkObject(object: {}, updater: WalkUpdater): {} {
   }, object)
 }
 
-function updateEntry<K = string, V = any>(key: K, value: V, updater: WalkUpdater): V {
+function updateEntry<K = string, V = any>(key: K, value: V, updater: WalkUpdater, parent?: any): V {
   return isPrimitive(value) 
-    ? updater(key, value)
-    : updater(key, walk(value, updater))
+    ? updater(key, value, parent)
+    : updater(key, walk(value, updater), parent)
 }

@@ -1,9 +1,8 @@
-import * as json from '../json/format'
+import * as format from '../format'
+const defaultLibs = [ "es2017", "DOM" ]
 
-const libs = [ "es2017", "DOM" ]
-
-const tsconfigJsonTemplate = 
-json.format
+export const tsconfigJson = ({ libs }) =>
+format.json
 `{
   "compilerOptions": {
     "target": "es5",
@@ -13,4 +12,8 @@ json.format
 }
 `
 
-console.log(tsconfigJsonTemplate)
+export default tsconfigJson({ libs: defaultLibs })
+
+if (require.main === module) {
+  console.log(module.exports.default)
+}

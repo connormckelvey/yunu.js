@@ -1,8 +1,9 @@
-import * as toml from '../toml/format'
+// import * as format from '../format'
 import * as path from 'path'
+import * as format from '../format'
 
-const influxDBConfig = ({influxDir = '/var/lib/influxdb'}) =>
-toml.format
+export const influxDBConfig = ({influxDir = '/var/lib/influxdb'}) =>
+format.toml
 `### Welcome to the InfluxDB configuration file.
 
 # Bind address to use for the RPC service for backup and restore.
@@ -44,5 +45,8 @@ bind-address = "127.0.0.1:8088"
   ]}
 `
 
-const output = influxDBConfig({})
-console.log(output)
+export default influxDBConfig({ influxDir: '/tmp' })
+
+if (require.main === module) {
+  console.log(module.exports.default)
+}
