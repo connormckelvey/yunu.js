@@ -1,8 +1,8 @@
-import * as format from '../format'
+import * as format from '../format/yaml'
 const defaultValues = require('./yaml_meta.json')
 
 export const kubernetesJobManifest = values => 
-format.yaml
+format.yaml2
 `apiVersion: batch/v1
 kind: Job
 metadata:
@@ -15,6 +15,7 @@ spec:
         - name: ${values.name}
           image: ${values.image}
           imagePullPolicy: IfNotPresent
+          ${'ohshit'}: true
           env: 
             ${
               Object.keys(values.secrets).map(secret => ({
@@ -25,12 +26,11 @@ spec:
                     key: values.secrets[secret]
                   }
                 } 
-              })).concat(
-                Object.keys(values.env).map(envVar => ({
-                  name: envVar,
-                  value: values.env[envVar],
-                })) as any[]
-              )
+              }))
+              .concat(Object.keys(values.env).map(envVar => ({
+                name: envVar,
+                value: values.env[envVar],
+              })) as any[])
             }
       volumes:
         - name: cloudsql

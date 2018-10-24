@@ -1,4 +1,3 @@
-// import * as format from '../format'
 import * as path from 'path'
 import * as format from '../format'
 
