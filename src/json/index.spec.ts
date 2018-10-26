@@ -1,9 +1,8 @@
 import * as fs from 'fs'
-import * as path from 'path'
 import { assert } from 'chai'
 import * as tmp from 'tmp'
 import * as json from './'
-import { table, TableTest } from '../testUtils'
+import { table, TableTest, TestData } from '../testUtils'
 
 describe('json', function() {
   describe('exports', function() {
@@ -96,6 +95,9 @@ interface dataTest {
 }
 
 function dataTests(): TableTest<dataTest>[] {
+  const testDataFiles = new TestData(__dirname).files()
+  const testDataFile = file => testDataFiles[file].path
+
   return [
     {
       name: 'example1',
@@ -138,10 +140,6 @@ function dataTests(): TableTest<dataTest>[] {
       replacer: symbolReplacer,
     },
   ]
-}
-
-function testDataFile(name): string {
-  return path.join(__dirname, 'testData', name)
 }
 
 function symbolReviver(key, val) {

@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 import * as path from 'path'
 import * as format from '../format'
 

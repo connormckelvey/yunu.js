@@ -17,7 +17,7 @@ export function loadFile<T>(path: string, reviver?: Reviver): T {
 
 export function dump(data: any, replacer?: Replacer, options?: YAML.DumpOptions): string {
   if (replacer) return YAML.dump(utils.walk(data, replacer), options)
-  return YAML.dump(data)
+  return YAML.dump(data).trimRight()
 }
 
 export function dumpFile(path: string, data: any, replacer?: Replacer, options?: YAML.DumpOptions): void {

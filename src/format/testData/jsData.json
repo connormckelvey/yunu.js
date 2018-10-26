@@ -1,0 +1,32 @@
+{
+  "null": null,
+  "number": 1,
+  "string": "foo",
+  "boolean": true,
+  "object": {
+    "a": 1
+  },
+  "array": [
+    1,
+    2,
+    3
+  ],
+  "date": "2018-10-25T13:53:50.994Z",
+  "nested": {
+    "null": null,
+    "number": 1,
+    "string": "foo",
+    "boolean": true,
+    "object": {
+      "a": 1
+    },
+    "array": [
+      1,
+      2,
+      3
+    ],
+    "map": {},
+    "set": {},
+    "date": "2018-10-25T13:53:50.994Z"
+  }
+}
