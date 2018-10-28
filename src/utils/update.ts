@@ -1,6 +1,6 @@
 import { walk, WalkUpdater } from './walk'
 
-interface Overrides {
+export interface Overrides {
   [key: string]: any
 }
 

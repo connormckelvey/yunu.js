@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import * as format from '../format'
+import * as format from 'yunu/format'
 
 export type K8sJobManifestValues = {
   name: string

@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import * as format from 'yunu/utils'
+import json from 'yunu/format/json'
 
 export type AppEngineJsonValues = {
   bucketId: string
@@ -9,7 +9,7 @@ export type AppEngineJsonValues = {
 }
 
 export const appEngineJson = (values: AppEngineJsonValues) =>
-format.json
+json
 `{
   "deployment": {
     "files": ${values.deploymentFiles.reduce((files, file) => {

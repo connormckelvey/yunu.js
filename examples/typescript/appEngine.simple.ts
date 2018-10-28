@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import * as json from '../json'
+import * as json from 'yunu/json'
 
 export const appEngineJson = (values) => json.dump({
   deployment: {

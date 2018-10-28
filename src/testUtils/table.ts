@@ -1,7 +1,5 @@
-import { stringify } from "querystring";
-
 export type TableTest<T> = T & { name: string };
-interface TableFunc<T> {
+export interface TableFunc<T> {
   (this: Mocha.Suite, test: TableTest<T>): void
 }
 

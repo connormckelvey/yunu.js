@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 
 import * as path from 'path'
-import * as toml from '../toml'
+import * as toml from 'yunu/toml'
 
 export const influxDBToml = (values) => toml.dump({
   'bind-address': '127.0.0.1:8088',

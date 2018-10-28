@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const utils = require('yunu/utils')
 const json = require('yunu/json')
 
 const appEngineJson = exports.appEngineJson = (values) => json.dump({

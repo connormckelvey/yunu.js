@@ -2,10 +2,7 @@ BUILD_DIR ?= dist
 PROJECT_DIR ?= $(PWD)
 
 $(BUILD_DIR): 
-	mkdir ${BUILD_DIR}
-
-$(BUILD_DIR)/src: $(BUILD_DIR)
-	cp -a src $(BUILD_DIR)/src
+	cp -a src/ $(BUILD_DIR)
 
 $(BUILD_DIR)/package.json:
 	cp package.json $(BUILD_DIR)/
@@ -19,7 +16,7 @@ $(BUILD_DIR)/node_modules: $(BUILD_DIR)/package.json
 clean:
 	rm -rf dist
 
-build: clean $(BUILD_DIR) $(BUILD_DIR)/src $(BUILD_DIR)/package.json $(BUILD_DIR)/tsconfig.json
+build: clean $(BUILD_DIR) $(BUILD_DIR)/node_modules $(BUILD_DIR)/tsconfig.json
 	cd dist && npm run build
 
 link: build

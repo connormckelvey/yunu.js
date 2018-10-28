@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import * as yaml from '../yaml';
+import * as yaml from 'yunu/yaml';
 
 export const K8sJobManifest = (values) => yaml.dump({
   apiVersion: 'batch/v1',
