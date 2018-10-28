@@ -1,0 +1,14 @@
+!*.js
+!*.js.map
+!*.d.ts
+
+*.spec.js
+*.spec.d.ts
+*.spec.js.map
+
+README.md
+tsconfig.json
+
+examples
+src
+testData

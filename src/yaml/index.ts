@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as YAML from 'js-yaml'
-import * as utils from '../utils/index'
+import * as utils from '../utils'
 
 export type Reviver = utils.WalkUpdater
 export type Replacer = utils.WalkUpdater
