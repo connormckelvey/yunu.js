@@ -10,13 +10,12 @@
     "!**/*.spec.js",
     "!**/*.spec.js.map",
     "!**/*.spec.d.ts",
-    "!README.md",
     "!examples",
     "!testData"
   ],
   "scripts": {
     "bootstrap": "npm run clean && npm install",
-    "build": "npm run bootstrap && tsc",
+    "build": "npm run bootstrap && tsc --outDir .",
     "clean": "git clean -fdx",
     "examples": "npm run build && npm link && npm run examples:bootstrap",
     "examples:bootstrap": "npm run examples:clean && npm run examples:install",
