@@ -1,6 +1,6 @@
 {
   "name": "yunu",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "files": [
@@ -16,6 +16,7 @@
   "scripts": {
     "bootstrap": "npm run clean && npm install",
     "build": "npm run bootstrap && tsc --outDir .",
+    "build:dev": "npm run bootstrap && tsc --outDir build",
     "clean": "git clean -fdx",
     "examples": "npm run build && npm link && npm run examples:bootstrap",
     "examples:bootstrap": "npm run examples:clean && npm run examples:install",
