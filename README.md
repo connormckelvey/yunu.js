@@ -133,3 +133,152 @@ describe('Redis Service YAML', function() {
 ```bash
 npm test
 ```
+
+# Yunu.js Requirments
+
+## Problems
+- General Project / Repo Layout
+  - Separating, organizing and naming: 
+      configs, values, tooling, documentation, etc
+  - Organizing code
+    - Designing Config Modules
+      - Provide functions that return parsed and encoded configs generated from 
+        input values.
+      - File (Executable) & Importable Module
+        - shebang
+        - exports
+          - typings
+          - default: rendered configNameTemplate with defaultValues as string
+          - defaultValues: sample/base/default values for template function
+          - "[configNameComponent]": Name should describe the type or kind of 
+            config/manifest it is producing. The function takes in a values object, 
+            and returns an object
+          - "[configNameTemplate]": Name should describe the type or kind of 
+            config/manifest it is producing. The function takes in a values object, 
+            and returns a string
+            - takes snapshot and saves it as file
+          - description: string containing a description of the config template
+        - main
+          - executes configNameTemplate template with default values and prints
+            to stdout. 
+          - takes snapshot and saves it as file
+        - help flag
+          - displays available commands, options, and the description of the 
+            config
+    - Designing Values Modules
+      - Provides Values and Value Types for a Config Template / Component
+      - Responsible for fetching and mapping values from all input sources.
+      - Values modules can be shared and composed / merged
+      - Could provide base / defaultValues, could provide values for specific   
+        config/artifact.
+      - File & Importable Module
+        - exports:
+          - typings
+          - default: sample/base/default values for template function
+          - "{[get<ValueSource>Values]}": function that return mapped values/overrides 
+            from a source.
+          - getValues: all/merged/mapped values for template function
+            - function (default, ...overrides/partials)
+          - help: help/description for options, environment variables, databases etc.
+      - Organizing Values Modules
+        - For every template values type there should be:
+          - 1 default values module
+          - 1 values selector module (select values from a given config)
+          - 0 or more values provider modules (mappings from env, argv, keychain etc)
+          - 0 or more instance values modules used for versioning values used in 
+            producing development or production config artifacts.
+        - default values, values selector modules should be located near the component
+           / template files
+        - other modules like values provider modules may be stored in a more high level
+          location for sharing.
+        - instance values modules may be stored together and organized in whatever way
+    - Designing "Helper" Modules (Lib)
+      - Sharing Components / Values Providers
+      - Common Functions / Utils
+- Managing Values / Input
+  - Sources / Providers
+    - Environment, Argv, Files, Web Services, Database, K/V Stores, KeyChain
+    - Mapping Source To Values
+  - Modifying Values
+    - Deep Merge
+    - Walk
+    - Update / Override In Path
+- Generating Configs
+  - Compose, Encode, Print vs "Templating"
+  - Template
+    - Composition of one or more Components and an Encoder. Receives a single values
+      object and returns an encoded string
+  - Component
+    - Function that takes a single values object. Using values it populates the corresponding fields in the config and returns it as an object
+  - Encoder
+    - Function that takes any javascript type and returns as an encoded string
+    - Replacer func
+  - Decoder
+    - Opposite of Encoder
+    - Reviver func
+  - Instance Script
+  - Logging and Reporting
+- Testing
+  - Code Organization
+    - Keeping tests near relevant code or configs
+    - Config Scripts should provide a way of running their own tests
+  - Values
+    - Test exports and defaults of values modules
+  - Templates / Components
+    - Test the exports and defaults of templates and components
+  - Test Data / Fixtures
+    - Use the configs you got, test what matters.
+  - Testing Side Effects
+    - Artifacts
+    - Deployments
+    - Migrations
+    - Diffing Configs
+    - Generating / Applying Patch files
+  - Generating Tests
+    - Generating tests with snapshots & values extractor
+- Workflows / Life Cycle
+  1. ConfigScript() 
+  2. InstanceValues()
+    - DefaultValues()
+    - ValuesProviders()
+    - Report()
+  3. ConfigTemplate(InstanceValues)
+    - ConfigComponent(InstanceValues)
+    - ConfigEncoder(ConfigComponent)
+    - Report()
+  4. RenderedConfig()
+     - EncodedConfig()
+     - DecodedConfig()
+     - Snapshot(RenderedConfig())
+     - Report()
+  5. ValidateConfig()
+     - TestConfigTypes()
+     - TestConfigValues()
+     - TestConfigDryRun()
+  5. SendArtifact(EncodedConfig())
+     - RetrySendArtifact(EncodedConfig())
+     - VerifyArtifact(EncodedConfig())
+     - Report()
+  7. TriggerWebhook(DecodedConfig())
+     - RetryTriggerWebhook(DecodedConfig())
+     - Report()
+  - Artifact
+    - A named, text-based config file containing a configuration rendered by a template 
+      function using default and/or or values.
+  - Snapshot
+    - Instance of an Artifact, with name/id, timestamp, git sha, and file 
+      format extension. 
+    - All config modules should be set up to auto-generate and save snapshots for 
+      every call to the template function.
+- Delivery and Deployment
+  - Destination
+    - Local File System, AWS S3, Dropbox, Github, etc...
+    - Webhook or other "Event" with Artifact payload and metadata.
+
+- Developer Experience
+    - Source Files as Scripts that Print Default Configs
+    - Documentation / Doc Generation
+
+- Use Cases
+  - K8s
+  - Prometheus Alerts Composition

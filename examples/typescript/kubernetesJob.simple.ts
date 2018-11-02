@@ -1,6 +1,13 @@
 #!/usr/bin/env ts-node
 
 import * as yaml from 'yunu/yaml';
+import * as deepmerge from 'deepmerge'
+
+const mergeValues = <T>(values: T, ...overrides: Partial<T>[]): T => {
+  const [ next, ...rest ] = overrides
+  if (!next) return values
+  return mergeValues(deepmerge<T>(values, next), ...rest)
+}
 
 export const K8sJobManifest = (values) => yaml.dump({
   apiVersion: 'batch/v1',
@@ -78,8 +85,21 @@ const defaultValues = {
   }
 }
 
+export type K8sJobManifestValues = {
+  name: string
+  image: string
+  db: { name: string }
+  secrets: { [VAR_NAME: string]: string }
+  env: { [VAR_NAME: string]: string }
+}
+
 export default K8sJobManifest(defaultValues)
 
 if (require.main === module) {
-  console.log(module.exports.default)
+  const values = 
+  mergeValues<K8sJobManifestValues>(defaultValues,
+    { name: 'sauce' },
+    { image: 'pics' })
+
+  console.log(K8sJobManifest(values))
 }
